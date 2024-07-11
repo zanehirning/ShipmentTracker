@@ -41,7 +41,11 @@ fun App() {
                     Text("Search")
                 }
             }
-            ShipmentItem(Shipment("1", "12312312"))
+            ShipmentItem(
+                Shipment("1", "12312312"),
+                onShipmentClose = {
+                }
+            )
         }
     }
 }
