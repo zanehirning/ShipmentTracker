@@ -1,7 +1,9 @@
 package updates
 
+import Shipment
+
 class Location : Update {
-    override fun apply() {
+    override fun apply(shipment: Shipment) {
         println("Location")
     }
 }

@@ -3,6 +3,8 @@ class Shipment(
     val timeStampOfUpdate: String,
 ) : ShipmentSubject {
 
+    private val subscribers = mutableListOf<ShipmentObserver>()
+
     override fun subscribe(observer: ShipmentObserver) {
         TODO("Not yet implemented")
     }
@@ -12,6 +14,8 @@ class Shipment(
     }
 
     override fun notifyObserver() {
-        TODO("Not yet implemented")
+        subscribers.forEach {
+            it.notify(this.id)
+        }
     }
 }

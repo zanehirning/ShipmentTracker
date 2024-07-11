@@ -1,5 +1,7 @@
 package updates
 
+import Shipment
+
 interface Update {
-    fun apply()
+    fun apply(shipment: Shipment)
 }
