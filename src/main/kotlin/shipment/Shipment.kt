@@ -1,3 +1,5 @@
+package shipment
+
 import updates.Update
 
 class Shipment(

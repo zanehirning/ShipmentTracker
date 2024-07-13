@@ -1,6 +1,6 @@
 package updates
 
-import Shipment
+import shipment.Shipment
 
 class Lost : Update {
     override fun apply(shipment: Shipment, otherInfo: String) {

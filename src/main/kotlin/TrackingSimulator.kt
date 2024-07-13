@@ -1,3 +1,4 @@
+import shipment.Shipment
 import updates.*
 
 object TrackingSimulator {

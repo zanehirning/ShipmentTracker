@@ -18,6 +18,6 @@ fun ErrorShipmentItem(shipmentId: String) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(10.dp).background(color = Color(179, 174, 173))
     ) {
-        Text("Shipment with id $shipmentId not found", modifier = Modifier.padding(10.dp))
+        Text("shipment.Shipment with id $shipmentId not found", modifier = Modifier.padding(10.dp))
     }
 }
