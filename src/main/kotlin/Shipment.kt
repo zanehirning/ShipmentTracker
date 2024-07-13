@@ -9,25 +9,9 @@ class Shipment(
             notifyObserver()
         }
     var location: String = ""
-        set(value) {
-            field = value
-            notifyObserver()
-        }
     var notes = mutableListOf<String>()
-        set(value) {
-            field = value
-            notifyObserver()
-        }
     var updateHistory = mutableListOf<ShippingUpdate>()
-        set(value) {
-            field = value
-            notifyObserver()
-        }
     var expectedDeliveryDateTimestamp: Long = 0
-        set(value) {
-            field = value
-            notifyObserver()
-        }
     private val subscribers = mutableListOf<ShipmentObserver>()
 
     fun addUpdate(update: Update, timeStampOfUpdate: String, otherInfo: String) {
