@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -32,14 +34,19 @@ fun ShipmentItem(shipment: Shipment, onShipmentClose: () -> Unit) {
                 }
             )
         }
-        Text("Status: Created", modifier = Modifier.padding(horizontal = 10.dp))
-        Text("Location: Warehouse", modifier = Modifier.padding(horizontal = 10.dp))
-        Text("Expected Delivery: 2021-10-10", modifier = Modifier.padding(horizontal = 10.dp))
+        Text("Status: ${shipment.status}", modifier = Modifier.padding(horizontal = 10.dp))
+        Text("Location: ${shipment.location}", modifier = Modifier.padding(horizontal = 10.dp))
+        Text("Expected Delivery: ${Date(shipment.expectedDeliveryDateTimestamp)}", modifier = Modifier.padding(horizontal = 10.dp))
         Spacer(modifier = Modifier.padding(10.dp))
         Text("Status Updates:", modifier = Modifier.padding(horizontal = 10.dp))
-        Text("2021-10-10: Shipment created", modifier = Modifier.padding(horizontal = 10.dp))
+        shipment.updateHistory.forEach {
+            Text("Shipment went from ${it.previousStatus} to ${it.newStatus} at ${Date(it.timestamp)}")
+        }
         Spacer(modifier = Modifier.padding(10.dp))
         Text("Notes:", modifier = Modifier.padding(10.dp))
+        shipment.notes.forEach {
+            Text(it, modifier = Modifier.padding(horizontal = 10.dp))
+        }
     }
 
 }
