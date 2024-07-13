@@ -16,14 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import java.util.Date
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShipmentItem(shipment: Shipment, onShipmentClose: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(10.dp).background(color = Color(179, 174, 173))
     ) {
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
-            Text("Tracking shipment.Shipment: ${shipment.id}", modifier = Modifier.padding(10.dp))
+            Text("Tracking Shipment: ${shipment.id}", modifier = Modifier.padding(10.dp))
             IconButton(
                 onClick = {
                     onShipmentClose()

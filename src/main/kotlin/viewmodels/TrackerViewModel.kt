@@ -15,6 +15,10 @@ class TrackerViewModel : ShipmentObserver {
     val uiState = TrackerViewModelState()
 
     override fun notify(shipment: Shipment) {
+        uiState.trackedShipmentIds.indexOf(shipment.id).takeIf { it != -1 }?.let {
+            uiState.trackedShipmentIds[it] = ""
+            uiState.trackedShipmentIds[it] = shipment.id
+        }
     }
 
     fun startTrackingShipment(shipmentId: String) {

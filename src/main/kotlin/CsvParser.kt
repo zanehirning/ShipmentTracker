@@ -1,7 +1,7 @@
 import java.io.FileReader
 
 class CsvParser(
-    private val path: String
+    path: String
 ) {
     private var currentLineIndex = 0
     private val reader: FileReader = FileReader(path)

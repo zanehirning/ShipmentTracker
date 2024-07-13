@@ -26,9 +26,10 @@ class Shipment(
 
     fun addUpdate(update: Update, timeStampOfUpdate: String, otherInfo: String) {
         update.apply(this, otherInfo)
-        if (this.status != "created" && this.status != "location" && this.status != "noteAdded") {
+        val lastStatus = if (updateHistory.isEmpty()) "created" else updateHistory.last().newStatus
+        if (this.status != "created" && lastStatus != this.status) {
             updateHistory += ShippingUpdate(
-                previousStatus = if (updateHistory.size == 0) "created" else updateHistory.last().newStatus,
+                previousStatus = lastStatus,
                 newStatus = this.status,
                 timestamp = timeStampOfUpdate.toLong()
             )
