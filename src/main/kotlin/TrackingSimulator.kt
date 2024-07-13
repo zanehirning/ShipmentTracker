@@ -8,7 +8,7 @@ object TrackingSimulator {
         "delivered" to Delivered(),
         "location" to Location(),
         "lost" to Lost(),
-        "noteAdded" to NoteAdded(),
+        "noteadded" to NoteAdded(),
         "shipped" to Shipped()
     )
     private var shipments: List<Shipment> = listOf()

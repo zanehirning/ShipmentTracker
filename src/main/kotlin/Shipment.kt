@@ -9,22 +9,32 @@ class Shipment(
             notifyObserver()
         }
     var location: String = ""
+        set(value) {
+            field = value
+            notifyObserver()
+        }
     var notes = mutableListOf<String>()
+        set(value) {
+            field = value
+            notifyObserver()
+        }
     var updateHistory = mutableListOf<ShippingUpdate>()
     var expectedDeliveryDateTimestamp: Long = 0
     private val subscribers = mutableListOf<ShipmentObserver>()
 
     fun addUpdate(update: Update, timeStampOfUpdate: String, otherInfo: String) {
         update.apply(this, otherInfo)
-        updateHistory += ShippingUpdate(
-            previousStatus = if (updateHistory.size == 0) "created" else updateHistory.last().newStatus,
-            newStatus = this.status,
-            timestamp = timeStampOfUpdate.toLong()
-        )
+        if (this.status != "created" && this.status != "location" && this.status != "noteAdded") {
+            updateHistory += ShippingUpdate(
+                previousStatus = if (updateHistory.size == 0) "created" else updateHistory.last().newStatus,
+                newStatus = this.status,
+                timestamp = timeStampOfUpdate.toLong()
+            )
+        }
     }
 
     fun addNote(note: String) {
-        notes += note
+        notes.add(note)
     }
 
     override fun subscribe(observer: ShipmentObserver) {

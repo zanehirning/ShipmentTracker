@@ -2,32 +2,43 @@ package viewmodels
 
 import Shipment
 import ShipmentObserver
+import TrackingSimulator
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.TextFieldValue
 
 class TrackerViewModelState {
     var shipmentTextFieldText by mutableStateOf(TextFieldValue(""))
-    val _trackedShipments = mutableStateListOf<Shipment>()
-    val trackedShipments: List<Shipment> get() = _trackedShipments
+    var trackedShipments = mutableStateListOf<Shipment>()
+    var trackedShipmentIds = mutableStateListOf<String>()
 }
 
 class TrackerViewModel() : ShipmentObserver {
     val uiState = TrackerViewModelState()
 
     override fun notify(shipment: Shipment) {
-        // Update the shipment in the list
-        uiState._trackedShipments.replaceAll { if (it.id == shipment.id) shipment else it }
+        println("Shipment ${shipment.id} has been updated.")
+
+        val updatedList = uiState.trackedShipments.toMutableList()
+        val index = updatedList.indexOfFirst { it.id == shipment.id }
+        if (index != -1) {
+            updatedList[index] = shipment
+            // Update the mutable state list to trigger recomposition
+            uiState.trackedShipments.clear()
+            uiState.trackedShipments.addAll(updatedList)
+        }
     }
 
-    fun startTrackingShipment(shipment: Shipment?) {
+    fun startTrackingShipment(shipmentId: String) {
+        uiState.trackedShipmentIds.add(shipmentId)
+        val shipment = TrackingSimulator.findShipment(shipmentId)
         if (shipment != null) {
             shipment.subscribe(this)
-            uiState._trackedShipments.add(shipment)
+            uiState.trackedShipments.add(shipment)
         }
     }
 
     fun stopTrackingShipment(shipment: Shipment) {
         shipment.unsubscribe(this)
-        uiState._trackedShipments.remove(shipment)
+        uiState.trackedShipments.remove(shipment)
     }
 }

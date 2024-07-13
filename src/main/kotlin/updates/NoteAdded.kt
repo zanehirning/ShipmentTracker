@@ -4,7 +4,6 @@ import Shipment
 
 class NoteAdded : Update {
     override fun apply(shipment: Shipment, otherInfo: String) {
-        shipment.status = "noteadded"
         shipment.addNote(otherInfo)
     }
 }

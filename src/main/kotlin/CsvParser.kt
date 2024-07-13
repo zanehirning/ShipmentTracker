@@ -11,6 +11,7 @@ class CsvParser(
         if (hasNextLine()) {
             var line = lines[currentLineIndex]
             currentLineIndex++
+            println(currentLineIndex)
             return line
         }
         reader.close()

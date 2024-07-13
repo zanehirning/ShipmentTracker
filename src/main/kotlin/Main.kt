@@ -1,8 +1,12 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -15,6 +19,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ui.ErrorShipmentItem
 import ui.ShipmentItem
 import viewmodels.TrackerViewModel
 
@@ -23,12 +28,13 @@ import viewmodels.TrackerViewModel
 fun App() {
     val viewModel = TrackerViewModel()
     val state = viewModel.uiState
-    val coroutineScope = rememberCoroutineScope()
 
     MaterialTheme {
-        coroutineScope.launch {
-            TrackingSimulator.runSimulation()
-            delay(1000)
+        LaunchedEffect(true) {
+            while (true) {
+                TrackingSimulator.runSimulation()
+                delay(1000)
+            }
         }
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -38,22 +44,37 @@ fun App() {
             ) {
                 TextField(
                     value = state.shipmentTextFieldText,
-                    onValueChange = { state.shipmentTextFieldText = it },
+                    onValueChange = {
+                        if (it.text.contains("\n")) {
+                            viewModel.startTrackingShipment(state.shipmentTextFieldText.text)
+                            state.shipmentTextFieldText = TextFieldValue("")
+                        }
+                        else {
+                            state.shipmentTextFieldText = it
+                        }
+                    },
                     placeholder = { Text("Enter Shipment Id") }
                 )
                 Button(onClick = {
-                    viewModel.startTrackingShipment(TrackingSimulator.findShipment(state.shipmentTextFieldText.text))
+                    viewModel.startTrackingShipment(state.shipmentTextFieldText.text)
+                    state.shipmentTextFieldText = TextFieldValue("")
                 }) {
                     Text("Search")
                 }
             }
-            state.trackedShipments.forEach {
-                ShipmentItem(
-                    it,
-                    onShipmentClose = {
-                        viewModel.stopTrackingShipment(it)
-                    }
-                )
+            state.trackedShipmentIds.reversed().forEach {
+                val shipment = TrackingSimulator.findShipment(it)
+                if (shipment != null) {
+                    ShipmentItem(
+                        shipment,
+                        onShipmentClose = {
+                            viewModel.stopTrackingShipment(shipment)
+                        }
+                    )
+                }
+                else {
+                    ErrorShipmentItem(it)
+                }
             }
         }
     }
