@@ -1,3 +1,3 @@
 interface ShipmentObserver {
-    fun notify(shipmentId: String)
+    fun notify(shipment: Shipment)
 }

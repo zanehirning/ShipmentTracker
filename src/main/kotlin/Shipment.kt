@@ -17,7 +17,7 @@ class Shipment(
     fun addUpdate(update: Update, timeStampOfUpdate: String, otherInfo: String) {
         update.apply(this, otherInfo)
         updateHistory += ShippingUpdate(
-            previousStatus = updateHistory.last().newStatus,
+            previousStatus = if (updateHistory.size == 0) "created" else updateHistory.last().newStatus,
             newStatus = this.status,
             timestamp = timeStampOfUpdate.toLong()
         )
@@ -37,7 +37,7 @@ class Shipment(
 
     override fun notifyObserver() {
         subscribers.forEach {
-            it.notify(this.id)
+            it.notify(this)
         }
     }
 }

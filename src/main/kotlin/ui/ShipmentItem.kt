@@ -40,7 +40,7 @@ fun ShipmentItem(shipment: Shipment, onShipmentClose: () -> Unit) {
         Spacer(modifier = Modifier.padding(10.dp))
         Text("Status Updates:", modifier = Modifier.padding(horizontal = 10.dp))
         shipment.updateHistory.forEach {
-            Text("Shipment went from ${it.previousStatus} to ${it.newStatus} at ${Date(it.timestamp)}")
+            Text("Shipment went from ${it.previousStatus} to ${it.newStatus} at ${Date(it.timestamp)}", modifier = Modifier.padding(horizontal = 10.dp))
         }
         Spacer(modifier = Modifier.padding(10.dp))
         Text("Notes:", modifier = Modifier.padding(10.dp))

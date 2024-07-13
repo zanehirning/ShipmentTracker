@@ -12,7 +12,7 @@ object TrackingSimulator {
         "shipped" to Shipped()
     )
     private var shipments: List<Shipment> = listOf()
-    private var parser: CsvParser = CsvParser("./input/text.txt")
+    private var parser: CsvParser = CsvParser("src/main/kotlin/input/test.txt")
 
     fun runSimulation() {
         val line = parser.parseLine()
