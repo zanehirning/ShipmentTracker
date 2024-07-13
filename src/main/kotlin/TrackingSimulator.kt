@@ -28,13 +28,10 @@ object TrackingSimulator {
         shipments += shipment
     }
 
-    fun update(shipmentId: String, operation: String) {
-        val shipment = findShipment(shipmentId)
-        if (shipment != null) {
-            if (operation in updateOperations) {
-                //TODO: Think about passing in shipmentId/shipment
-                updateOperations[operation]?.apply(shipment)
-            }
+    fun update(shipmentId: String, operation: String, otherInfo: String?) {
+        val shipment = findShipment(shipmentId) ?: Shipment(shipmentId)
+        if (operation in updateOperations) {
+            shipment.addUpdate(updateOperations[operation]!!, otherInfo ?: "")
         }
     }
 }
