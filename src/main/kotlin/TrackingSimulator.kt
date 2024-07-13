@@ -12,12 +12,25 @@ object TrackingSimulator {
         "shipped" to Shipped()
     )
     private var shipments: List<Shipment> = listOf()
+    private var parser: CsvParser = CsvParser("./input/text.txt")
 
     fun runSimulation() {
-        /**
-         * Read from file
-         */
-
+        val line = parser.parseLine()
+        when (line.size) {
+            3 -> {
+                val status = line[0]
+                val shipmentId = line[1]
+                val timeStampOfUpdate = line[2]
+                update(shipmentId, status, timeStampOfUpdate)
+            }
+            4 -> {
+                val status = line[0]
+                val shipmentId = line[1]
+                val timeStampOfUpdate = line[2]
+                val otherInfo = line.slice(3 until line.size).joinToString(",")
+                update(shipmentId, status, timeStampOfUpdate, otherInfo)
+            }
+        }
     }
 
     fun findShipment(id: String): Shipment? {
@@ -28,10 +41,10 @@ object TrackingSimulator {
         shipments += shipment
     }
 
-    fun update(shipmentId: String, operation: String, otherInfo: String?) {
+    fun update(shipmentId: String, operation: String, timeStampOfUpdate: String, otherInfo: String = "") {
         val shipment = findShipment(shipmentId) ?: Shipment(shipmentId)
         if (operation in updateOperations) {
-            shipment.addUpdate(updateOperations[operation]!!, otherInfo ?: "")
+            shipment.addUpdate(updateOperations[operation]!!, timeStampOfUpdate, otherInfo)
         }
     }
 }

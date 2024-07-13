@@ -30,12 +30,12 @@ class Shipment(
         }
     private val subscribers = mutableListOf<ShipmentObserver>()
 
-    fun addUpdate(update: Update, otherInfo: String) {
+    fun addUpdate(update: Update, timeStampOfUpdate: String, otherInfo: String) {
         update.apply(this, otherInfo)
         updateHistory += ShippingUpdate(
             previousStatus = updateHistory.last().newStatus,
             newStatus = this.status,
-            timestamp = System.currentTimeMillis() //TODO: get timestamp
+            timestamp = timeStampOfUpdate.toLong()
         )
     }
 
