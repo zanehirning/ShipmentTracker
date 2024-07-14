@@ -105,7 +105,10 @@ class ShipmentTest {
         }
         val observer2 = object : ShipmentObserver {
             override fun notify(shipment: Shipment) {
-                shipment.updateHistory = mutableListOf(ShippingUpdate("created", "shipped", 1234567890))
+                shipment.javaClass.getDeclaredField("updateHistory").apply {
+                    isAccessible = true
+                    set(shipment, mutableListOf(ShippingUpdate("created", "shipped", 1234567890)))
+                }
             }
         }
         shipment.subscribe(observer)
@@ -145,7 +148,10 @@ class ShipmentTest {
         }
         val observer2 = object : ShipmentObserver {
             override fun notify(shipment: Shipment) {
-                shipment.updateHistory = mutableListOf(ShippingUpdate("created", "shipped", 1234567890))
+                shipment.javaClass.getDeclaredField("updateHistory").apply {
+                    isAccessible = true
+                    set(shipment, mutableListOf(ShippingUpdate("created", "shipped", 1234567890)))
+                }
                 assertEquals(1, shipment.updateHistory.size, "Shipment update history size is not what was expected")
                 assertEquals(1234567890, shipment.updateHistory[0].timestamp, "Shipment update history timestamp is not what was expected")
                 assertEquals("created", shipment.updateHistory[0].previousStatus, "Shipment update history previous status is not what was expected")

@@ -16,11 +16,12 @@ class Shipment(
             notifyObserver()
         }
     var notes = mutableListOf<String>()
-        set(value) {
+        private set(value) {
             field = value
             notifyObserver()
         }
     var updateHistory = mutableListOf<ShippingUpdate>()
+        private set
     var expectedDeliveryDateTimestamp: Long = 0
     private val subscribers = mutableListOf<ShipmentObserver>()
 

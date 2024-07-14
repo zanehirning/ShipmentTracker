@@ -42,7 +42,7 @@ object TrackingSimulator {
         shipments += shipment
     }
 
-    fun update(shipmentId: String, operation: String, timeStampOfUpdate: String, otherInfo: String = "") {
+    private fun update(shipmentId: String, operation: String, timeStampOfUpdate: String, otherInfo: String = "") {
         val shipment = findShipment(shipmentId) ?: Shipment(shipmentId)
         if (operation in updateOperations) {
             shipment.addUpdate(updateOperations[operation]!!, timeStampOfUpdate, otherInfo)
