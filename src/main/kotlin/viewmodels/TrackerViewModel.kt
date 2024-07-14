@@ -28,6 +28,8 @@ class TrackerViewModel : ShipmentObserver {
 
     fun stopTrackingShipment(shipment: Shipment) {
         shipment.unsubscribe(this)
-        uiState.trackedShipmentIds.remove(shipment.id)
+        if (uiState.trackedShipmentIds.contains(shipment.id)) {
+            uiState.trackedShipmentIds.remove(shipment.id)
+        }
     }
 }
