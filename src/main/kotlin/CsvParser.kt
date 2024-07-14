@@ -7,7 +7,7 @@ class CsvParser(
     private val reader: FileReader = FileReader(path)
     private val lines: List<String> = reader.readLines()
 
-   private fun readNextLine(): String {
+    private fun readNextLine(): String {
         if (hasNextLine()) {
             var line = lines[currentLineIndex]
             currentLineIndex++
